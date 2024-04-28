@@ -75,7 +75,7 @@ $paramVPN = @{
     'Verbose' = $true
 }
 
-# Step 1 = Create resource groups
+# Step 1 = Create initial resource groups
 New-AzDeployment -Name $paramRG.Name @paramRG
 
 # Step 2 = Create VNET Address Space and Subnets
