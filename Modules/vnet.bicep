@@ -7,9 +7,9 @@ param GWSubnet string
 
 // Not declared in this bicep file but needed for script to execute
 param prefix string
-param suffix string
 param subID string
-param vmSize string
+param virtualMachineCount int
+param virtualMachineSize string
 param officeNet1 string
 param officeNet2 string
 param officePubIP string

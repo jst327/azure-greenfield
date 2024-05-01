@@ -1,4 +1,4 @@
-# Justin Tucker - 2024-04-28
+# Justin Tucker - 2024-05-01
 # SPDX-FileCopyrightText: Copyright © 2024, Justin Tucker
 # https://github.com/jst327/azure-greenfield
 
@@ -10,13 +10,13 @@ $paramDate = Get-Date -Format "MM-dd-yyyy"
 $paramMAIN = @{
     'location' = 'centralus'
     'prefix' = 'ABC'
-    'suffix' = '01'
     'subID' = ''
     'vnetSpace' = '10.0.0.0/16'
     'MgmtSubnet' = '10.0.0.0/24'
     'IntSubnet' = '10.0.1.0/24'
     'GWSubnet' = '10.0.50.0/27'
-    'vmSize' = 'Standard_B2ms'
+    'virtualMachineCount' = 1
+    'virtualMachineSize' = 'Standard_B2ms'
     'officeNet1' = '10.1.0.0/24'
     'officeNet2' = '10.2.0.0/24'
     'officePubIP' = '8.8.8.8'
@@ -52,12 +52,12 @@ $paramDC = @{
     'Name' = $paramDate+'_'+'HBS_Greenfield_DC_Deployment'
     'location' = $paramMAIN.location
     'prefix' = $paramMAIN.prefix
-    'suffix' = $paramMAIN.suffix
     'ResourceGroupName' = $paramMAIN.prefix.ToUpper()+'-Management'
     'subID' = $paramMAIN.subID
     'TemplateFile' = '.\Modules\dc.bicep'
     'TemplateParameterObject' = $paramObject
-    'virtualMachineSize' = $paramMAIN.vmSize
+    'virtualMachineCount' = $paramMAIN.virtualMachineCount
+    'virtualMachineSize' = $paramMAIN.virtualMachineSize
     'Verbose' = $true
 }
 
@@ -85,4 +85,4 @@ New-AzResourceGroupDeployment -Name $paramVNET.Name @paramVNET
 New-AzResourceGroupDeployment -Name $paramDC.Name @paramDC
 
 # Step 4 = Create Local Gateway and Virtual Network Gateway
-New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
+#New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
