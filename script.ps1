@@ -5,12 +5,14 @@
 # Connect to your Azure subscription
 Connect-AzAccount
 
+$subscriptionID = $(Get-AzContext).Subscription.Id
+
 $paramDate = Get-Date -Format "MM-dd-yyyy"
 
 $paramMAIN = @{
     'location' = 'centralus'
     'prefix' = 'ABC'
-    'subID' = ''
+    'subID' = $subscriptionID
     'vnetSpace' = '10.0.0.0/16'
     'MgmtSubnet' = '10.0.0.0/24'
     'IntSubnet' = '10.0.1.0/24'
