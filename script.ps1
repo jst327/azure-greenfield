@@ -9,6 +9,8 @@ $subscriptionID = $(Get-AzContext).Subscription.Id
 
 $paramDate = Get-Date -Format "MM-dd-yyyy"
 
+$paramTimeZone = (Get-TimeZone).Id
+
 $paramMAIN = @{
     'location' = 'centralus'
     'prefix' = 'ABC'
@@ -58,6 +60,7 @@ $paramDC = @{
     'subID' = $paramMAIN.subID
     'TemplateFile' = '.\Modules\dc.bicep'
     'TemplateParameterObject' = $paramObject
+    'TimeZone' = $paramTimeZone
     'virtualMachineCount' = $paramMAIN.virtualMachineCount
     'virtualMachineSize' = $paramMAIN.virtualMachineSize
     'Verbose' = $true
@@ -87,4 +90,4 @@ New-AzResourceGroupDeployment -Name $paramVNET.Name @paramVNET
 New-AzResourceGroupDeployment -Name $paramDC.Name @paramDC
 
 # Step 4 = Create Local Gateway and Virtual Network Gateway
-New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
+#New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN

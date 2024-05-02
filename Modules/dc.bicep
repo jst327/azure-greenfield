@@ -2,6 +2,7 @@ param location string
 param prefix string
 param subID string
 param sourceIP string
+param TimeZone string
 param networkInterfaceName string = '${toLower(prefix)}-ad-p0'
 param networkSecurityGroupName string = '${toLower(prefix)}-ad-p0'
 param networkSecurityGroupRules array = [
@@ -48,18 +49,7 @@ param dataDisks array = [
     diskEncryptionSet: null
   }
 ]
-param dataDiskResources array = [
-  {
-    name: '${toLower(prefix)}-ad-p0'
-    sku: 'Premium_LRS'
-    properties: {
-      diskSizeGB: 32
-      creationData: {
-        createOption: 'empty'
-      }
-    }
-  }
-]
+
 param virtualMachineSize string
 param nicDeleteOption string = 'Delete'
 param adminUsername string = '${toLower(prefix)}admin'
@@ -217,7 +207,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-09-01' = [for it
             rebootSetting: rebootSetting
           }
         }
-        timeZone: 'Central Standard Time'
+        timeZone: TimeZone
       }
     }
     securityProfile: {
