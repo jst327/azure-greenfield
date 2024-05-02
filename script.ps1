@@ -5,7 +5,7 @@
 # Connect to your Azure subscription
 Connect-AzAccount
 
-$subscriptionID = $(Get-AzContext).Subscription.Id
+$subscriptionID = (Get-AzContext).Subscription.Id
 
 $paramDate = Get-Date -Format "MM-dd-yyyy"
 
