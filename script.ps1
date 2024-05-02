@@ -1,4 +1,4 @@
-# Justin Tucker - 2024-05-01
+# Justin Tucker - 2024-05-02
 # SPDX-FileCopyrightText: Copyright © 2024, Justin Tucker
 # https://github.com/jst327/azure-greenfield
 
@@ -87,4 +87,4 @@ New-AzResourceGroupDeployment -Name $paramVNET.Name @paramVNET
 New-AzResourceGroupDeployment -Name $paramDC.Name @paramDC
 
 # Step 4 = Create Local Gateway and Virtual Network Gateway
-#New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
+New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
