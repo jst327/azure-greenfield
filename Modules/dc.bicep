@@ -64,14 +64,12 @@ param securityType string = 'TrustedLaunch'
 param secureBoot bool = true
 param vTPM bool = true
 param diagnosticsStorageAccountName string = '${toLower(prefix)}managementdiag'
-param diagnosticsStorageAccountId string = 'Microsoft.Storage/storageAccounts/${toLower(prefix)}managementdiag'
 param diagnosticsStorageAccountType string = 'Standard_LRS'
 param diagnosticsStorageAccountKind string = 'Storage'
 param availabilitySetName string = '${toLower(prefix)}-ad-p0'
 param availabilitySetPlatformFaultDomainCount int = 3
 param availabilitySetPlatformUpdateDomainCount int = 5
 
-var diagnosticsExtensionName = 'Microsoft.Insights.VMDiagnosticsSettings'
 var storageUri = environment().suffixes.storage
 
 resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2023-09-01' = [for item in range(1, virtualMachineCount): {
@@ -256,3 +254,18 @@ resource availabilitySet 'Microsoft.Compute/availabilitySets@2023-09-01' = {
     name: 'Aligned'
   }
 }
+
+resource deploymentScript 'Microsoft.Compute/virtualMachines/runCommands@2023-09-01' = [for i in range(0, length(range(1, virtualMachineCount))): {
+  name: 'Format-ADDS-Disk'
+  location: location
+  parent: virtualMachine[i]
+  properties: {
+    source: {
+      script: '''
+        Get-WmiObject -Class Win32_volume -Filter "DriveLetter = 'E:'" | Set-WmiInstance -Arguments @{DriveLetter="F:"}
+        Initialize-Disk -Number 2 -PartitionStyle GPT
+        Get-Disk -Number 2 | New-Volume -FileSystem NTFS -DriveLetter E -FriendlyName 'ADDS'
+        '''
+    }
+  }
+}]

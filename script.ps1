@@ -1,4 +1,4 @@
-# Justin Tucker - 2024-05-02
+# Justin Tucker - 2024-05-05
 # SPDX-FileCopyrightText: Copyright © 2024, Justin Tucker
 # https://github.com/jst327/azure-greenfield
 
@@ -13,13 +13,13 @@ $paramTimeZone = (Get-TimeZone).Id
 
 $paramMAIN = @{
     'location' = 'centralus'
-    'prefix' = 'ABC'
+    'prefix' = 'XYZ'
     'subID' = $subscriptionID
     'vnetSpace' = '10.0.0.0/16'
     'MgmtSubnet' = '10.0.0.0/24'
     'IntSubnet' = '10.0.1.0/24'
     'GWSubnet' = '10.0.50.0/27'
-    'virtualMachineCount' = 1
+    'virtualMachineCount' = 2
     'virtualMachineSize' = 'Standard_B2ms'
     'officeNet1' = '10.1.0.0/24'
     'officeNet2' = '10.2.0.0/24'
@@ -90,4 +90,4 @@ New-AzResourceGroupDeployment -Name $paramVNET.Name @paramVNET
 New-AzResourceGroupDeployment -Name $paramDC.Name @paramDC
 
 # Step 4 = Create Local Gateway and Virtual Network Gateway
-#New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
+New-AzResourceGroupDeployment -Name $paramVPN.Name @paramVPN
