@@ -13,7 +13,7 @@ $paramTimeZone = (Get-TimeZone).Id
 
 $paramMAIN = @{
     'location' = 'centralus'
-    'prefix' = 'XYZ'
+    'prefix' = 'ABC'
     'subID' = $subscriptionID
     'vnetSpace' = '10.0.0.0/16'
     'MgmtSubnet' = '10.0.0.0/24'
