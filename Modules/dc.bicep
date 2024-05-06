@@ -262,9 +262,8 @@ resource deploymentScript 'Microsoft.Compute/virtualMachines/runCommands@2023-09
   properties: {
     source: {
       script: '''
-        Get-WmiObject -Class Win32_volume -Filter "DriveLetter = 'E:'" | Set-WmiInstance -Arguments @{DriveLetter="F:"}
         Initialize-Disk -Number 2 -PartitionStyle GPT
-        Get-Disk -Number 2 | New-Volume -FileSystem NTFS -DriveLetter E -FriendlyName 'ADDS'
+        Get-Disk -Number 2 | New-Volume -FileSystem NTFS -DriveLetter F -FriendlyName 'ADDS'
         '''
     }
   }
