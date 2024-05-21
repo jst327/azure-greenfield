@@ -268,3 +268,16 @@ resource deploymentScript 'Microsoft.Compute/virtualMachines/runCommands@2023-09
     }
   }
 }]
+
+resource deploymentScript2 'Microsoft.Compute/virtualMachines/runCommands@2023-09-01' = [for i in range(0, length(range(1, virtualMachineCount))): {
+  name: 'Install-ADDS-Role'
+  location: location
+  parent: virtualMachine[i]
+  properties: {
+    source: {
+      script: '''
+      Install-WindowsFeature -name AD-Domain-Services -IncludeManagementTools
+        '''
+    }
+  }
+}]
