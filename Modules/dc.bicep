@@ -25,7 +25,7 @@ param networkSecurityGroupRules array = [
 param subnetName string = 'Management'
 param vnetId string = virtualNetworkId
 param subnetRef string = '${vnetId}/subnets/${subnetName}'
-param virtualNetworkId string = '/subscriptions/${subID}/resourceGroups/${toLower(prefix)}-Global/providers/Microsoft.Network/virtualNetworks/${toLower(prefix)}-Global'
+param virtualNetworkId string = '/subscriptions/${subID}/resourceGroups/${toUpper(prefix)}-Global/providers/Microsoft.Network/virtualNetworks/${toUpper(prefix)}-Global'
 param publicIpAddressName string = '${toLower(prefix)}-ad-p0'
 param publicIpAddressType string = 'Static'
 param publicIpAddressSku string = 'Standard'
@@ -52,7 +52,7 @@ param dataDisks array = [
 
 param virtualMachineSize string
 param nicDeleteOption string = 'Delete'
-param adminUsername string = '${toLower(prefix)}admin'
+param adminUsername string = '${toLower(prefix)}-admin'
 
 @secure()
 param adminPassword string
@@ -91,6 +91,7 @@ resource publicIpAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = [for
   }
 }]
 
+@batchSize(1)
 resource networkInterface 'Microsoft.Network/networkInterfaces@2023-09-01' = [for item in range(1, virtualMachineCount): {
   name: '${networkInterfaceName}${item}-ip'
   location: location
@@ -228,6 +229,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-09-01' = [for it
   dependsOn: [
     dataDiskResources_name
     diagnosticsStorageAccount
+    networkInterface
   ]
 }]
 
@@ -263,7 +265,7 @@ resource deploymentScript 'Microsoft.Compute/virtualMachines/runCommands@2023-09
     source: {
       script: '''
         Initialize-Disk -Number 2 -PartitionStyle GPT
-        Get-Disk -Number 2 | New-Volume -FileSystem NTFS -DriveLetter F -FriendlyName 'ADDS'
+        Get-Disk -Number 2 | New-Volume -FileSystem NTFS -DriveLetter F -FriendlyName 'Data-ADDS'
         '''
     }
   }

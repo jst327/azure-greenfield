@@ -5,15 +5,6 @@ param MgmtSubnet string
 param IntSubnet string
 param GWSubnet string
 
-// Not declared in this bicep file but needed for script to execute
-param prefix string
-param subID string
-param virtualMachineCount int
-param virtualMachineSize string
-param officeNet1 string
-param officeNet2 string
-param officePubIP string
-
 param vnetSettings object = {
   name: vnetName
   location: location
