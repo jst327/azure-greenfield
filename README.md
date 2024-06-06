@@ -14,9 +14,9 @@ The end result will create everything needed so that you can RDP into the Azure 
 
 ## Execution
 
-Download files to your machine. Before running, open <b>main.bicepparam</b> and edit parameters under <b>$paramMAIN</b> as needed. No other changes will be required for the deployment.
+Download files to your machine. Before running, open <b>main.bicepparam</b> and edit parameters as needed. No other changes will be required for the deployment.
 
-$paramMAIN parameters explained:
+main.bicepparam parameters explained:
 
 | Parameter           | Description                                                                   |
 |---------------------|-------------------------------------------------------------------------------|
