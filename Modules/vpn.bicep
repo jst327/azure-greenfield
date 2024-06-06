@@ -2,18 +2,15 @@ param location string
 param prefix string
 param LGname string = '${toUpper(prefix)}-Office'
 param VGname string = '${toUpper(prefix)}-Global-GW1'
+param officeNet array
 param officePubIP string
-param gatewayIP string = officePubIP
-param officeNet1 string
-param officeNet2 string
 param gatewayType string = 'Vpn'
 param subID string
 param sku string = 'VpnGw1'
 param vpnType string = 'RouteBased'
 param vpnGatewayGeneration string = 'Generation1'
 param subnetId string = '/subscriptions/${subID}/resourceGroups/${toUpper(prefix)}-Global/providers/Microsoft.Network/virtualNetworks/${toUpper(prefix)}-Global/subnets/GatewaySubnet'
-param newPublicIpAddressName string = '${toUpper(prefix)}-Global-GW1-IP1'
-
+param newPublicIpAddressName string = '${VGname}-IP1'
 param connectionType string = 'IPsec'
 param virtualNetworkGatewayId1 string = '/subscriptions/${subID}/resourceGroups/${toUpper(prefix)}-Global/providers/Microsoft.Network/virtualNetworkGateways/${VGname}'
 param connectionName string = '${toUpper(prefix)}-Office'
@@ -38,26 +35,15 @@ param connectionMode string = 'Default'
 param localNetworkGatewayId2 string = '/subscriptions/${subID}/resourceGroups/${toUpper(prefix)}-Global/providers/Microsoft.Network/localNetworkGateways/${LGname}'
 param ingressNatRules array = []
 param egressNatRules array = []
-
-
-// Not declared in this bicep file but needed for script to execute
-param suffix string
-param vnetSpace string
-param MgmtSubnet string
-param IntSubnet string
-param GWSubnet string
-param vmSize string
+param sharedKey string
 
 resource localgateway 'Microsoft.Network/localNetworkGateways@2023-04-01' = {
   name: LGname
   location: location
   properties: {
-    gatewayIpAddress: gatewayIP
+    gatewayIpAddress: officePubIP
     localNetworkAddressSpace: {
-      addressPrefixes: [
-        officeNet1
-        officeNet2
-      ]
+      addressPrefixes: officeNet
     }
   }
 }
@@ -130,7 +116,9 @@ resource connection 'Microsoft.Network/connections@2023-09-01' = {
     egressNatRules: egressNatRules
     localNetworkGateway2: {
       id: localNetworkGatewayId2
+      properties: {}
     }
+    sharedKey: sharedKey
   }
   dependsOn: [
     localgateway, vpngateway

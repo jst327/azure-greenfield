@@ -25,6 +25,11 @@ param adminPassword string
 param virtualMachineCount int
 param virtualMachineSize string
 
+// Virtual & Local Network Gateway Parameters
+param officeNet array
+param officePubIP string
+param sharedKey string
+
 module resourceGroup 'Modules/rg.bicep' = {
   name: 'resourceGroupDeploy'
   params: {
@@ -63,4 +68,18 @@ module virtualMachine 'Modules/dc.bicep' = {
     virtualMachineSize: virtualMachineSize
   }
   dependsOn: [resourceGroup]
+}
+
+module virtualGateway 'Modules/vpn.bicep' = {
+  name: 'virtualGatewayDeploy'
+  scope: az.resourceGroup(GlobalResourceGroup)
+  params: {
+    location: location
+    officeNet: officeNet
+    officePubIP: officePubIP
+    prefix: prefix
+    sharedKey: sharedKey
+    subID: subID
+  }
+  dependsOn: [resourceGroup, virtualNetwork]
 }

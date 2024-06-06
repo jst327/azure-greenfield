@@ -21,6 +21,13 @@ param IntSubnet = '10.50.1.0/24'
 param MgmtSubnet = '10.50.0.0/24'
 
 // Virtual & Local Network Gateway Parameters
+param officeNet = [
+  '10.0.0.0/24'
+  '10.0.1.0/24'
+  '10.0.2.0/24'
+]
+param officePubIP = '1.1.1.1'
+param sharedKey = ''
 
 // Virtual Machine Parameters
 param adminPassword = readEnvironmentVariable('ADMIN_PASSWORD')
